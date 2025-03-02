@@ -4,12 +4,13 @@ import { provideStore } from '@ngrx/store'
 import { provideStoreDevtools } from '@ngrx/store-devtools'
 
 import { routes } from '@app/app.routes'
+import { rootReducer } from '@/stores'
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore(),
+    provideStore({ root: rootReducer }),
     provideStoreDevtools({ logOnly: !isDevMode() })
   ]
 }
