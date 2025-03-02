@@ -1,3 +1,23 @@
 <main>
   <h1 class="font-bold">This is Todo Page</h1>
+  <form (submit)="onAddTodo($event)" class="flex gap-1.5">
+    <input
+      (input)="onAddInputValue($event)"
+      class="h-14 border rounded-md px-[16px] py-[12px]"
+      type="text"
+      [value]="inputVal$ | async"
+      placeholder="할 일을 입력해 주세요"
+    />
+    <button type="submit" class="h-14 rounded-md px-[16px] py-[12px] cursor-pointer bg-blue-400">추가하기</button>
+  </form>
+
+  <div *ngFor="let todo of todos$ | async">
+    <div class="flex gap-1.5">
+      <input type="checkbox" [checked]="todo.completed" (change)="onToggleTodo(todo.id)" />
+      <span [class.completed]="todo.completed">{{ todo.text }}</span>
+    </div>
+    <button (click)="onDeleteTodo(todo.id)" class="h-14 rounded-md px-[16px] py-[12px] cursor-pointer bg-red-400">
+      삭제하기
+    </button>
+  </div>
 </main>
