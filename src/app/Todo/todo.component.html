@@ -12,12 +12,20 @@
   </form>
 
   <div *ngFor="let todo of todos$ | async">
-    <div class="flex gap-1.5">
-      <input type="checkbox" [checked]="todo.completed" (change)="onToggleTodo(todo.id)" />
-      <span [class.completed]="todo.completed">{{ todo.text }}</span>
+    <div class="flex gap-1.5 items-center mt-4">
+      <label [ngClass]="[todo.completed ? 'line-through text-gray-400' : '']" [for]="todo.text">
+        <input type="checkbox" [id]="todo.text" [checked]="todo.completed" (change)="onToggleTodo(todo.id)" />
+        {{ todo.text }}
+      </label>
+      <button
+        (click)="onDeleteTodo(todo.id)"
+        [ngClass]="[
+          'rounded-md px-[16px] py-[12px] cursor-pointer transition-colors duration-200 ease-in-out',
+          todo.completed ? 'bg-gray-400 text-white' : 'bg-red-400'
+        ]"
+      >
+        삭제하기
+      </button>
     </div>
-    <button (click)="onDeleteTodo(todo.id)" class="h-14 rounded-md px-[16px] py-[12px] cursor-pointer bg-red-400">
-      삭제하기
-    </button>
   </div>
 </main>
