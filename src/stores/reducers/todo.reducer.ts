@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store'
+import { produce } from 'immer'
 
 import { addInputValue, addTodo, deleteTodo, toggleTodo } from '@/stores/actions/todo.action'
 
@@ -25,25 +26,25 @@ export const todoReducer = createReducer<TodoStateType>(
   on(addInputValue, (state, { payload }): TodoStateType => ({ ...state, inputValue: payload })),
   on(
     addTodo,
-    (state): TodoStateType => ({
-      ...state,
-      todoId: state.todoId + 1,
-      todos: [...state.todos, { id: state.todoId, text: state.inputValue, completed: false }],
-      inputValue: ''
-    })
+    (state): TodoStateType =>
+      produce(state, (draft) => {
+        draft.todoId = draft.todoId + 1
+        draft.todos.push({ id: draft.todoId, text: draft.inputValue, completed: false })
+        draft.inputValue = ''
+      })
   ),
   on(
     deleteTodo,
-    (state, { payload }): TodoStateType => ({
-      ...state,
-      todos: state.todos.filter((todo) => todo.id !== payload)
-    })
+    (state, { payload }): TodoStateType =>
+      produce(state, (draft) => {
+        draft.todos = draft.todos.filter((todo) => todo.id !== payload)
+      })
   ),
   on(
     toggleTodo,
-    (state, { payload }): TodoStateType => ({
-      ...state,
-      todos: state.todos.map((todo) => (todo.id === payload ? { ...todo, completed: !todo.completed } : todo))
-    })
+    (state, { payload }): TodoStateType =>
+      produce(state, (draft) => {
+        draft.todos = draft.todos.map((todo) => (todo.id === payload ? { ...todo, completed: !todo.completed } : todo))
+      })
   )
 )
