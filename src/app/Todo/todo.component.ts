@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common'
 import { Store } from '@ngrx/store'
 
 import { selectInputValue, selectTodos } from '@/stores/selectors/todo.selector'
+import { addInputValue, addTodo, deleteTodo, toggleTodo } from '@/stores/actions/todo.action'
 
 import type { OnInit } from '@angular/core'
-import { addInputValue, addTodo, deleteTodo, toggleTodo } from '@/stores/actions/todo.action'
 
 @Component({
   templateUrl: './todo.component.html',
